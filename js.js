@@ -36,17 +36,20 @@
 // console.log(newbook.read);
 // console.log(newbook.pages);
 
-const mylibrary = [];
+let mylibrary = [];
 
 const bookTarget = document.querySelector("#books");
 const bookAdd = document.querySelector("#addBooks");
 const bookTitle = document.querySelector("#title");
+const bookRemove = document.querySelector("#remove");
 
 function books() {
   console.log(mylibrary);
   let listItems = "";
   mylibrary.forEach(function (book) {
-    listItems = listItems + `<li>${book}</li>`;
+    listItems =
+      listItems +
+      `<li>${book} <button id="remove" value="${book}">remove button</button></li>`;
   });
   bookTarget.innerHTML = listItems;
 }
@@ -56,11 +59,32 @@ function addBook(title) {
   books();
 }
 
+function removeBook(title) {
+  console.log(title);
+  mylibrary = mylibrary.filter(function (book) {
+    // keeps true, removes false
+    console.log(book);
+    const isBookRemoved = book === title;
+    console.log(isBookRemoved);
+    // true
+    return !isBookRemoved;
+    // !isBookRemoved = is not true = false
+  });
+  books();
+}
+
 bookAdd.addEventListener("submit", (e) => {
   e.preventDefault();
   console.log(e.target);
   console.log(bookTitle.value);
   addBook(bookTitle.value);
+});
+
+document.addEventListener("click", (e) => {
+  if (e.target.id === "remove") {
+    console.log(e.target.value);
+    removeBook(e.target.value);
+  }
 });
 
 addBook("Book 1");
